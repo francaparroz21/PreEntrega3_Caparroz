@@ -1,0 +1,9 @@
+nav > *{
+    padding: 10px;
+}
+
+.buttonsProductsDiv{
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+}
