@@ -3,7 +3,6 @@ class Product {
 
     //Funcion constructora de la clase Product 
     constructor(name, description, price) {
-        this.id = generateId();
         this.name = name;
         this.description = description;
         this.price = price;
@@ -66,76 +65,33 @@ function sortLowest() {
     return arrayProducts.sort(function (a, b) { return a.price - b.price });
 }
 
-//Funcion para responder el evento del boton enviar.
-function clickResponse(){
-    button.remove()
-    var name = document.getElementById("nameProduct").value;
-    var desc = document.getElementById("descProduct").value;
-    var price = parseFloat(document.getElementById("priceProduct").value);
-    var product = new Product(name,desc,price)
-    arrayProducts.push(product);
+//Evento on click que guarda los datos y crea un producto.
+function submitResponse() {
+    var nameForm = document.getElementById("nameProduct").value;
+    if (!inputNameValidation(nameForm) && document.getElementById("pNameForm") == null){
+        const divNameForm = document.getElementById("divName")
+        let p = document.createElement("p");
+        p.setAttribute("id","pNameForm");
+        p.innerHTML = "The name product is too short"
+        divNameForm.append(p);
+        return false;
+    }else if (inputNameValidation(nameForm)){
+        document.getElementById("pNameForm").remove();
+    }
+    var descForm = document.getElementById("descProduct").value;
+    var priceForm = parseFloat(document.getElementById("priceProduct").value);
+    return new Product(nameForm, descForm, priceForm);
 }
 
-//Creamos arraylist de productos
-//Creo la lista con algunos productos por si no se quiere ingresar manual y facilitar la correcion.
-let arrayProducts = [];
-//Flag que solo es false cuando se quiere salir del bucle.
-let process = true;
-//Menu para printear
-const menu = "1-Create a product for append to the product list.\n2-Show the products list.\n3-Find a product by ID\n4-Filter products.\n5-Buy a product.\n6-Find products by name\n0-Exit.";
-//Obtenemos el boton submit
-let button = document.getElementById("buttonSubmit")
+//Funcion para validar el input del nombre del producto.
+function inputNameValidation(inputName){
+    if(inputName.length <= 2)return false;
+    return true;
+}
 
-//let anotherProductQuestion = 
-
-
-/* //Ciclo while que solo se rompe cuando se ingresa "0" (EXIT).
-while (process) {
-    var op = parseInt(prompt(menu));
-    //Opciones del menu
-    switch (op) {
-        case 1:
-            var nameProduct = prompt("Enter the product name.");
-            var descProduct = prompt("Enter the description, something about the product.");
-            var priceProduct = parseFloat(prompt("Insert the product price."));
-            arrayProducts.push(createProduct(nameProduct, descProduct, priceProduct));
-            break;
-        case 2:
-            showProducts();
-            break;
-        case 3:
-            var findId = parseInt(prompt("Enter the product ID."));
-            console.log(findById(findId));
-            break;
-        case 4:
-            var opFilter = parseInt(prompt("1.  Order from highest to lowest price.\n\
-                                            2.  Order from lowest to highest price."));
-            if (opFilter == 1) {
-                console.log(sortHighest());
-            }
-            else if (opFilter == 2) {
-                console.log(sortLowest());
-            } else {
-                alert("Please enter ('1' or '2')");
-            }
-            break;
-        case 5:
-            var buyForId = parseInt(prompt("Enter the product id for buy."));
-            if (arrayProducts.includes(findById(buyForId))) {
-                alert("The product price with IVA is " + findById(buyForId).calculateIva());
-                var confirmBuy = prompt("Are you sure?\n Enter ('YES' or 'NO').").toUpperCase();
-                if (confirmBuy == "YES") console.log(buyProductById(buyForId));
-                else if (confirmBuy == "NO") console.log("Thanks anyway.Come back soon");
-            }else{
-                console.log("Product id not found. Try again.")
-            }
-            break;
-        case 6:
-            var findName = prompt("Enter the product name for search.");
-            console.log(findByName(findName));
-            break;
-        case 0:
-            process = false;
-            break;
-    }
-} */
+//Evento listener que escucha cada vez que el submit se toca, usamos funcion submitResponse().
+const form = document.getElementById("form");
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if(submitResponse != false)localStorage.setItem(generateId(), JSON.stringify(submitResponse()));
+})

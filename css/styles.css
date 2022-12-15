@@ -7,3 +7,8 @@ nav > *{
     display: flex;
     justify-content: space-around;
 }
+
+#pNameForm{
+    color: red;
+
+}
