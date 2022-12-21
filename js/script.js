@@ -68,16 +68,7 @@ function sortLowest() {
 //Evento submit que guarda los datos de un producto, contiene varias validaciones.
 function submitResponse() {
     var nameForm = document.getElementById("nameProduct").value;
-    if (!inputNameValidation(nameForm)) {
-        if (document.getElementById("pNameForm") == null) {
-            printShortNameValidation();
-        }
-        return false;
-    }
-
     var descForm = document.getElementById("descProduct").value;
-
-
     var priceForm = parseFloat(document.getElementById("priceProduct").value);
     if (!inputPriceValidation(priceForm)) {
         if (document.getElementById("pPriceForm") == null) {
@@ -86,6 +77,23 @@ function submitResponse() {
         return false;
     }
     return new Product(nameForm, descForm, priceForm);
+}
+
+
+//Evento para validar el nombre del producto.
+const inputNameForm = document.getElementById("nameProduct")
+
+inputNameForm.addEventListener('change', eventInputNameValidation());
+
+function eventInputNameValidation() {
+    var nameForm = document.getElementById("nameProduct").value;
+    if (!inputNameValidation(nameForm)) {
+        if (document.getElementById("pNameForm") == null) {
+            printShortNameValidation();
+        }
+        return false;
+    }
+    return true;
 }
 
 //Funcion para validar el input del nombre del producto. (que la la longitud del nombre sea como minimo 3).
