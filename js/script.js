@@ -65,33 +65,61 @@ function sortLowest() {
     return arrayProducts.sort(function (a, b) { return a.price - b.price });
 }
 
-//Evento on click que guarda los datos y crea un producto.
+//Evento submit que guarda los datos de un producto, contiene varias validaciones.
 function submitResponse() {
     var nameForm = document.getElementById("nameProduct").value;
-    if (!inputNameValidation(nameForm) && document.getElementById("pNameForm") == null){
-        const divNameForm = document.getElementById("divName")
-        let p = document.createElement("p");
-        p.setAttribute("id","pNameForm");
-        p.innerHTML = "The name product is too short"
-        divNameForm.append(p);
+    if (!inputNameValidation(nameForm)) {
+        if (document.getElementById("pNameForm") == null) {
+            printShortNameValidation();
+        }
         return false;
-    }else if (inputNameValidation(nameForm)){
-        document.getElementById("pNameForm").remove();
     }
+
     var descForm = document.getElementById("descProduct").value;
+
+
     var priceForm = parseFloat(document.getElementById("priceProduct").value);
+    if (!inputPriceValidation(priceForm)) {
+        if (document.getElementById("pPriceForm") == null) {
+            printLowPriceValidation()
+        }
+        return false;
+    }
     return new Product(nameForm, descForm, priceForm);
 }
 
-//Funcion para validar el input del nombre del producto.
-function inputNameValidation(inputName){
-    if(inputName.length <= 2)return false;
-    return true;
+//Funcion para validar el input del nombre del producto. (que la la longitud del nombre sea como minimo 3).
+function inputNameValidation(inputName) {
+    return (inputName.length > 2);
 }
+
+//Funcion para validar que el precio del producto sea mayor a 5$
+function inputPriceValidation(inputPrice) {
+    return (inputPrice > 5);
+}
+
+//Metodo para printear un parrafo rojo que nos indica que la longitud del nombre es muy corta.
+function printShortNameValidation() {
+    const divNameForm = document.getElementById("divName")
+    let p = document.createElement("p");
+    p.setAttribute("id", "pNameForm");
+    p.innerHTML = "The name product is too short"
+    divNameForm.append(p);
+}
+
+//Metodo para printear un parrafo rojo que nos indica que el precio debe ser mayor a 5.
+function printLowPriceValidation(){
+    const divPriceForm = document.getElementById("divPrice")
+    let p = document.createElement("p");
+    p.setAttribute("id", "pPriceForm");
+    p.innerHTML = "The price product must be greather than '5'."
+    divPriceForm.append(p);
+}
+
 
 //Evento listener que escucha cada vez que el submit se toca, usamos funcion submitResponse().
 const form = document.getElementById("form");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if(submitResponse != false)localStorage.setItem(generateId(), JSON.stringify(submitResponse()));
+    if (submitResponse() != false) localStorage.setItem(generateId(), JSON.stringify(submitResponse()));
 })
