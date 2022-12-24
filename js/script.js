@@ -65,37 +65,6 @@ function sortLowest() {
     return arrayProducts.sort(function (a, b) { return a.price - b.price });
 }
 
-//Evento submit que guarda los datos de un producto, contiene varias validaciones.
-function submitResponse() {
-    var nameForm = document.getElementById("nameProduct").value;
-    var descForm = document.getElementById("descProduct").value;
-    var priceForm = parseFloat(document.getElementById("priceProduct").value);
-    if (!inputPriceValidation(priceForm)) {
-        if (document.getElementById("pPriceForm") == null) {
-            printLowPriceValidation()
-        }
-        return false;
-    }
-    return new Product(nameForm, descForm, priceForm);
-}
-
-
-//Evento para validar el nombre del producto.
-const inputNameForm = document.getElementById("nameProduct")
-
-inputNameForm.addEventListener('change', eventInputNameValidation());
-
-function eventInputNameValidation() {
-    var nameForm = document.getElementById("nameProduct").value;
-    if (!inputNameValidation(nameForm)) {
-        if (document.getElementById("pNameForm") == null) {
-            printShortNameValidation();
-        }
-        return false;
-    }
-    return true;
-}
-
 //Funcion para validar el input del nombre del producto. (que la la longitud del nombre sea como minimo 3).
 function inputNameValidation(inputName) {
     return (inputName.length > 2);
@@ -125,9 +94,38 @@ function printLowPriceValidation(){
 }
 
 
+//Funcion que se ejecuta cada vez que se toca el boton submit, guarda los datos de un producto, contiene varias validaciones y retorna un producto nuevo.
+function submitResponse() {
+    var nameForm = document.getElementById("nameProduct").value;
+    var descForm = document.getElementById("descProduct").value;
+    var priceForm = parseFloat(document.getElementById("priceProduct").value);
+    if (inputNameValidation(nameForm) && inputPriceValidation(priceForm))return new Product(nameForm, descForm, priceForm);
+    return false;
+}
+
+//Funcion que se ejecuta cuando se cambia el input que se refiere al nombre del producto.
+function eventInputNameForm(){
+    const pName = document.getElementById("pNameForm")
+    const inputNameForm = document.getElementById("nameProduct").value;
+    if (!inputNameValidation(inputNameForm) && pName == null)printShortNameValidation();
+    else if (inputNameValidation(inputNameForm) && pName != null)pName.remove()
+}
+
+ 
+//Eventos 
+//Eventos 
+//Eventos 
+
 //Evento listener que escucha cada vez que el submit se toca, usamos funcion submitResponse().
 const form = document.getElementById("form");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (submitResponse() != false) localStorage.setItem(generateId(), JSON.stringify(submitResponse()));
+    if (submitResponse() != false) localStorage.setItem(generateId(), JSON.stringify(submitResponse()))
+    else document.body.append("No se cargo ningun producto, intentelo nuevamente")
 })
+
+const inputNameForm = document.getElementById("nameProduct")
+
+inputNameForm.addEventListener("change",(e) =>{
+    eventInputNameForm();
+});
