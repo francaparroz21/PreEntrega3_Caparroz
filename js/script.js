@@ -111,21 +111,44 @@ function eventInputNameForm(){
     else if (inputNameValidation(inputNameForm) && pName != null)pName.remove()
 }
 
+function eventInputPriceForm(){
+    const pPrice = document.getElementById("pPriceForm")
+    const inputPriceForm = document.getElementById("priceProduct").value
+    if(!inputPriceValidation(inputPriceForm) && pPrice == null)printLowPriceValidation()
+    else if (inputPriceValidation(inputPriceForm) && pPrice != null)pPrice.remove()
+}
+
  
-//Eventos 
-//Eventos 
 //Eventos 
 
 //Evento listener que escucha cada vez que el submit se toca, usamos funcion submitResponse().
 const form = document.getElementById("form");
+
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (submitResponse() != false) localStorage.setItem(generateId(), JSON.stringify(submitResponse()))
-    else document.body.append("No se cargo ningun producto, intentelo nuevamente")
+    if (submitResponse() != false){
+        localStorage.setItem(generateId(), JSON.stringify(submitResponse()))
+
+    }
+    else{
+        if (document.getElementById("divValidation") == null){
+        const divValidation = document.createElement("div")
+        divValidation.setAttribute("id","divValidation")
+        divValidation.innerHTML = "<p>Error validations</p>"
+        document.body.append(divValidation)}
+    }
 })
 
+//Evento que escucha los cambios en el input que se refiere al nombre del producto.
 const inputNameForm = document.getElementById("nameProduct")
 
 inputNameForm.addEventListener("change",(e) =>{
     eventInputNameForm();
+});
+
+//Evento que escucha los cambios en el input del precio.
+const inputPriceForm = document.getElementById("priceProduct")
+
+inputPriceForm.addEventListener("change",(e) =>{
+    eventInputPriceForm();
 });

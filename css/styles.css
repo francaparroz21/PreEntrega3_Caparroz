@@ -8,7 +8,6 @@ nav > *{
     justify-content: space-around;
 }
 
-#pNameForm{
+#pNameForm,#pPriceForm{
     color: red;
-
 }
