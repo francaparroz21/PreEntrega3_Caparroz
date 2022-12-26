@@ -12,7 +12,17 @@ nav > *{
     color: red;
 }
 
+#h2Products{
+text-align: center;
+}
+
 #products{
     display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+#products > p {
+    padding: 10px;
 }
 

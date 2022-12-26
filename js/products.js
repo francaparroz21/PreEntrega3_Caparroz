@@ -18,14 +18,13 @@ function showProducts() {
             if (i == 0) {
                 const div = document.createElement("div");
                 div.setAttribute("id", "divProducts")
-                div.setAttribute("class","container")
+                div.setAttribute("class","container-fluid")
                 div.innerHTML = "<h2 id='h2Products'>Products</h2>";
                 const products = document.createElement("div")
                 products.setAttribute("id","products")
                 div.append(products)
                 document.body.append(div);
             }
-            const divProducts = document.getElementById("divProducts")
             const idProduct = localStorage.key(i)
             const product = JSON.parse(localStorage.getItem(i + 1))
             const nameProduct = product.name

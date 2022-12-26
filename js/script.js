@@ -22,13 +22,6 @@ function createProduct(name, desc, price) {
     return new Product(name, desc, price);
 }
 
-//Funcion para mostrar todos los productos
-function showProducts() {
-    localStorage.forEach(element => {
-        console.log(element);
-    });
-}
-
 //Funcion que compra y elimina un producto de la lista de stock. Devuelve true si se compro y false si no.
 function buyProductById(id) {
     p = findById(id);
