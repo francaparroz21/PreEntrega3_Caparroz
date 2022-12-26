@@ -24,7 +24,7 @@ function createProduct(name, desc, price) {
 
 //Funcion para mostrar todos los productos
 function showProducts() {
-    arrayProducts.forEach(element => {
+    localStorage.forEach(element => {
         console.log(element);
     });
 }
@@ -42,7 +42,7 @@ function buyProductById(id) {
 
 //Funcion para buscar productos por id. Devuelve un solo objeto ya que el id es unico e incremental.
 function findById(idFind) {
-    for (let i = 0; i < arrayProducts.length; i++) {
+    for (let i = 0; i < localStorage.length; i++) {
         if (arrayProducts[i].id == idFind) return arrayProducts[i];
     }
     return "Not found";

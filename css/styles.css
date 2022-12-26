@@ -11,3 +11,8 @@ nav > *{
 #pNameForm,#pPriceForm{
     color: red;
 }
+
+#products{
+    display: flex;
+}
+
