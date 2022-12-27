@@ -18,8 +18,14 @@ text-align: center;
 
 #products{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     padding: 10px;
+}
+
+#products > div {
+    padding: 10px;
+    border: 1px solid black;
 }
 
 #products > p {

@@ -3,6 +3,7 @@ class Product {
 
     //Funcion constructora de la clase Product 
     constructor(name, description, price) {
+        this.id = generateId()
         this.name = name;
         this.description = description;
         this.price = price;
@@ -16,6 +17,18 @@ class Product {
 
 //Arrow function que genera un id unico e incremental para cada producto.
 const generateId = (() => (id = 1, () => id++))();
+
+const arrayProducts = [
+    new Product("AirPods", "Airpods for iphone mobiles.", 400),
+    new Product("Airforce Nike", "Nike shoes airforce, ultimate version", 800),
+    new Product("Keyboard RGB", "Mechanical keyboard rgb for gamers", 500),
+    new Product("Microphone", "Ambient microphone", 200),
+    new Product("PC gamer", "Pc gamer w/ i5-33300 & Nvidia geforce 1650ti", 1200),
+    new Product("Nissan", "leather car nissan", 5000),
+    new Product("Microphone", "Ambient microphone v2", 500),
+    new Product("Nissan", "leather car nissan v2", 8000)
+];
+
 
 //Funcion que toma dos argumentos, crea un producto y lo retorna.
 function createProduct(name, desc, price) {
@@ -111,9 +124,6 @@ function eventInputPriceForm(){
     else if (inputPriceValidation(inputPriceForm) && pPrice != null)pPrice.remove()
 }
 
- 
-//Eventos 
-
 //Evento listener que escucha cada vez que el submit se toca, usamos funcion submitResponse().
 const form = document.getElementById("form");
 
@@ -139,9 +149,81 @@ inputNameForm.addEventListener("change",(e) =>{
     eventInputNameForm();
 });
 
+//Evento que se ejecuta cuando se recarga la pagina.
+document.addEventListener('DOMContentLoaded',() =>{
+    printProducts()
+})
+
 //Evento que escucha los cambios en el input del precio.
 const inputPriceForm = document.getElementById("priceProduct")
 
 inputPriceForm.addEventListener("change",(e) =>{
     eventInputPriceForm();
 });
+
+//Obtengo el div de los botones
+const show = document.getElementById("showProducts")
+const hide = document.getElementById("hideProducts")
+
+//Evento click que muestra los productos solo si los productos no se mostraron anteriormente
+show.addEventListener("click",(e) => {
+    showProducts()
+})
+
+//Evento para eliminar los productos del dom
+hide.addEventListener("click",(e) =>{
+    hideProducts()
+})
+
+//Funcion para printear productos
+function printProducts(){
+    for (let i = 0; i < arrayProducts.length; i++) {
+        if (i == 0) {
+            const div = document.createElement("div");
+            div.setAttribute("id", "divProducts")
+            div.setAttribute("class","container")
+            div.innerHTML = "<h2 id='h2Products'>Products</h2>";
+            const products = document.createElement("div")
+            products.setAttribute("id","products")
+            products.setAttribute("class","container-fluid")
+            div.append(products)
+            document.body.append(div);
+        }
+        const idProduct = arrayProducts[i].id
+        const nameProduct = arrayProducts[i].name
+        const descProduct = arrayProducts[i].description
+        const priceProduct = arrayProducts[i].price
+
+        const appendProduct = document.createElement("div")
+        appendProduct.innerHTML = `<h4>${nameProduct}</h4>
+                                   <p>ID: ${idProduct}</p>
+                                   <p>Description: ${descProduct}</p>
+                                   <p>Price: ${priceProduct}</p>
+                                   <button name='buttonCart' id='${idProduct}' class='addToCart' type='button'>Add to Cart</button>`
+        document.getElementById("products").append(appendProduct)
+    }
+}
+
+//Funcion que se ejecuta cuando se aprieta el boton "SHOW PRODUCTS". Muestra todos los productos del arraylist
+function showProducts() {
+    if (document.getElementById("divProducts") == null) {
+       printProducts()
+    }
+}
+
+//Funcion que se ejecuta cuando se aprieta el boton "HIDE PRODUCTS"
+function hideProducts() {
+    if (document.getElementById("divProducts") != null)document.getElementById("divProducts").remove()
+}
+
+
+//Eventos para cada uno de los botonees (add to cart).Agrega un producto al carrito (localstorage)
+const addToCartButtons = document.getElementsByTagName("buttonCart")
+
+
+
+
+
+
+
+    
