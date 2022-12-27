@@ -1,14 +1,6 @@
 //Evento que se ejecuta cuando se recarga la pagina del carrito.
 document.addEventListener('DOMContentLoaded', () => {
     printProductsLocalStorage()
-    const deleteButtons = document.getElementsByClassName("deleteButton")
-
-    for (let i = 0; i < deleteButtons.length; i++) {
-        deleteButtons[i].addEventListener("click", (e) => {
-            localStorage.removeItem(e.target.id)
-            document.getElementById("product"+e.target.id).remove()
-        })
-    }
 
 })
 
@@ -42,8 +34,9 @@ function printProductsLocalStorage() {
             div.append(products)
             document.getElementById("divContainerCart").append(div)
         }
-        const product = JSON.parse(localStorage.getItem(i + 1))
-        const idProduct = i + 1
+        const key = localStorage.key(i)
+        const product = JSON.parse(localStorage.getItem(key))
+        const idProduct = key
         const nameProduct = product.name
         const descProduct = product.description
         const priceProduct = product.price
@@ -56,5 +49,18 @@ function printProductsLocalStorage() {
                                    <p>Price: ${priceProduct}</p>
                                    <button name='buttonDelete' id='${idProduct}' class='deleteButton' type='button'>Delete</button>`
         document.getElementById("divProductsLocalStorage").append(appendProduct)
+    }
+    addEventsDeleteButtons()
+}
+
+
+function addEventsDeleteButtons() {
+    const deleteButtons = document.getElementsByClassName("deleteButton")
+
+    for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener("click", (e) => {
+            localStorage.removeItem(e.target.id)
+            document.getElementById("product" + e.target.id).remove()
+        })
     }
 }

@@ -105,8 +105,7 @@ function submitResponse() {
     var nameForm = document.getElementById("nameProduct").value;
     var descForm = document.getElementById("descProduct").value;
     var priceForm = parseFloat(document.getElementById("priceProduct").value);
-    if (inputNameValidation(nameForm) && inputPriceValidation(priceForm)) return new Product(nameForm, descForm, priceForm);
-    return false;
+    return new Product(nameForm, descForm, priceForm);
 }
 
 //Funcion que se ejecuta cuando se cambia el input que se refiere al nombre del producto.
@@ -129,9 +128,11 @@ const form = document.getElementById("form");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (submitResponse() != false) {
-        if (document.getElementById("divValidation") != null) document.getElementById("divValidation").remove()
+    var nameForm = document.getElementById("nameProduct").value;
+    var priceForm = parseFloat(document.getElementById("priceProduct").value);
+    if (inputNameValidation(nameForm) && inputPriceValidation(priceForm)) {
         arrayProducts.push(submitResponse())
+        if (document.getElementById("divValidation")!= null)document.getElementById("divValidation").remove()
     }
     else {
         if (document.getElementById("divValidation") == null) {
@@ -153,27 +154,6 @@ inputNameForm.addEventListener("change", (e) => {
 //Evento que se ejecuta cuando se recarga la pagina.
 document.addEventListener('DOMContentLoaded', () => {
     printProducts()
-    //Eventos para cada uno de los botonees (add to cart).Agrega un producto al carrito (localstorage)
-    const addToCartButtons = document.getElementsByClassName("addToCart")
-
-    if (document.getElementById("divProducts") != null) {
-        for (let i = 0; i < addToCartButtons.length; i++) {
-            addToCartButtons[i].addEventListener("click", (e) => {
-                const idProduct = e.target.id
-                const product = findById(idProduct)
-
-                localStorage.setItem(idProduct, JSON.stringify(product))
-
-                if (document.getElementById("added"+idProduct) == null) {
-                    const added = document.createElement("p")
-                    added.setAttribute("id", "added"+idProduct)
-                    added.setAttribute("class", "added")
-                    added.innerText = "Added!"
-                    document.getElementById("product" + idProduct).append(added)
-                }
-            })
-        }
-    }
 
 })
 
@@ -226,6 +206,7 @@ function printProducts() {
                                    <button id='${idProduct}' class='addToCart' type='button'>Add to Cart</button>`
         document.getElementById("products").append(appendProduct)
     }
+    addEventsCartButtons()
 }
 
 //Funcion que se ejecuta cuando se aprieta el boton "SHOW PRODUCTS". Muestra todos los productos del arraylist
@@ -238,6 +219,29 @@ function showProducts() {
 //Funcion que se ejecuta cuando se aprieta el boton "HIDE PRODUCTS"
 function hideProducts() {
     if (document.getElementById("divProducts") != null) document.getElementById("divProducts").remove()
+}
+
+
+function addEventsCartButtons() {
+    //Eventos para cada uno de los botonees (add to cart).Agrega un producto al carrito (localstorage)
+    const addToCartButtons = document.getElementsByClassName("addToCart")
+
+    for (let i = 0; i < addToCartButtons.length; i++) {
+        addToCartButtons[i].addEventListener("click", (e) => {
+            const idProduct = e.target.id
+            const product = findById(idProduct)
+
+            localStorage.setItem(idProduct, JSON.stringify(product))
+
+            if (document.getElementById("added" + idProduct) == null) {
+                const added = document.createElement("p")
+                added.setAttribute("id", "added" + idProduct)
+                added.setAttribute("class", "added")
+                added.innerText = "Added!"
+                document.getElementById("product" + idProduct).append(added)
+            }
+        })
+    }
 }
 
 
