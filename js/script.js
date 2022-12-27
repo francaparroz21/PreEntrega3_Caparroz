@@ -48,7 +48,7 @@ function buyProductById(id) {
 
 //Funcion para buscar productos por id. Devuelve un solo objeto ya que el id es unico e incremental.
 function findById(idFind) {
-    for (let i = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < arrayProducts.length; i++) {
         if (arrayProducts[i].id == idFind) return arrayProducts[i];
     }
     return "Not found";
@@ -91,7 +91,7 @@ function printShortNameValidation() {
 }
 
 //Metodo para printear un parrafo rojo que nos indica que el precio debe ser mayor a 5.
-function printLowPriceValidation(){
+function printLowPriceValidation() {
     const divPriceForm = document.getElementById("divPrice")
     let p = document.createElement("p");
     p.setAttribute("id", "pPriceForm");
@@ -105,23 +105,23 @@ function submitResponse() {
     var nameForm = document.getElementById("nameProduct").value;
     var descForm = document.getElementById("descProduct").value;
     var priceForm = parseFloat(document.getElementById("priceProduct").value);
-    if (inputNameValidation(nameForm) && inputPriceValidation(priceForm))return new Product(nameForm, descForm, priceForm);
+    if (inputNameValidation(nameForm) && inputPriceValidation(priceForm)) return new Product(nameForm, descForm, priceForm);
     return false;
 }
 
 //Funcion que se ejecuta cuando se cambia el input que se refiere al nombre del producto.
-function eventInputNameForm(){
+function eventInputNameForm() {
     const pName = document.getElementById("pNameForm")
     const inputNameForm = document.getElementById("nameProduct").value;
-    if (!inputNameValidation(inputNameForm) && pName == null)printShortNameValidation();
-    else if (inputNameValidation(inputNameForm) && pName != null)pName.remove()
+    if (!inputNameValidation(inputNameForm) && pName == null) printShortNameValidation();
+    else if (inputNameValidation(inputNameForm) && pName != null) pName.remove()
 }
 
-function eventInputPriceForm(){
+function eventInputPriceForm() {
     const pPrice = document.getElementById("pPriceForm")
     const inputPriceForm = document.getElementById("priceProduct").value
-    if(!inputPriceValidation(inputPriceForm) && pPrice == null)printLowPriceValidation()
-    else if (inputPriceValidation(inputPriceForm) && pPrice != null)pPrice.remove()
+    if (!inputPriceValidation(inputPriceForm) && pPrice == null) printLowPriceValidation()
+    else if (inputPriceValidation(inputPriceForm) && pPrice != null) pPrice.remove()
 }
 
 //Evento listener que escucha cada vez que el submit se toca, usamos funcion submitResponse().
@@ -129,35 +129,58 @@ const form = document.getElementById("form");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (submitResponse() != false){
-        localStorage.setItem(generateId(), JSON.stringify(submitResponse()))
-
+    if (submitResponse() != false) {
+        if (document.getElementById("divValidation") != null) document.getElementById("divValidation").remove()
+        arrayProducts.push(submitResponse())
     }
-    else{
-        if (document.getElementById("divValidation") == null){
-        const divValidation = document.createElement("div")
-        divValidation.setAttribute("id","divValidation")
-        divValidation.innerHTML = "<p>Error validations</p>"
-        document.body.append(divValidation)}
+    else {
+        if (document.getElementById("divValidation") == null) {
+            const divValidation = document.createElement("div")
+            divValidation.setAttribute("id", "divValidation")
+            divValidation.innerHTML = "<p>Name or price product are incorrect</p>"
+            document.getElementById("form").append(divValidation)
+        }
     }
 })
 
 //Evento que escucha los cambios en el input que se refiere al nombre del producto.
 const inputNameForm = document.getElementById("nameProduct")
 
-inputNameForm.addEventListener("change",(e) =>{
+inputNameForm.addEventListener("change", (e) => {
     eventInputNameForm();
 });
 
 //Evento que se ejecuta cuando se recarga la pagina.
-document.addEventListener('DOMContentLoaded',() =>{
+document.addEventListener('DOMContentLoaded', () => {
     printProducts()
+    //Eventos para cada uno de los botonees (add to cart).Agrega un producto al carrito (localstorage)
+    const addToCartButtons = document.getElementsByClassName("addToCart")
+
+    if (document.getElementById("divProducts") != null) {
+        for (let i = 0; i < addToCartButtons.length; i++) {
+            addToCartButtons[i].addEventListener("click", (e) => {
+                const idProduct = e.target.id
+                const product = findById(idProduct)
+
+                localStorage.setItem(idProduct, JSON.stringify(product))
+
+                if (document.getElementById("added"+idProduct) == null) {
+                    const added = document.createElement("p")
+                    added.setAttribute("id", "added"+idProduct)
+                    added.setAttribute("class", "added")
+                    added.innerText = "Added!"
+                    document.getElementById("product" + idProduct).append(added)
+                }
+            })
+        }
+    }
+
 })
 
 //Evento que escucha los cambios en el input del precio.
 const inputPriceForm = document.getElementById("priceProduct")
 
-inputPriceForm.addEventListener("change",(e) =>{
+inputPriceForm.addEventListener("change", (e) => {
     eventInputPriceForm();
 });
 
@@ -166,28 +189,28 @@ const show = document.getElementById("showProducts")
 const hide = document.getElementById("hideProducts")
 
 //Evento click que muestra los productos solo si los productos no se mostraron anteriormente
-show.addEventListener("click",(e) => {
+show.addEventListener("click", (e) => {
     showProducts()
 })
 
 //Evento para eliminar los productos del dom
-hide.addEventListener("click",(e) =>{
+hide.addEventListener("click", (e) => {
     hideProducts()
 })
 
 //Funcion para printear productos
-function printProducts(){
+function printProducts() {
     for (let i = 0; i < arrayProducts.length; i++) {
         if (i == 0) {
             const div = document.createElement("div");
             div.setAttribute("id", "divProducts")
-            div.setAttribute("class","container")
+            div.setAttribute("class", "container")
             div.innerHTML = "<h2 id='h2Products'>Products</h2>";
             const products = document.createElement("div")
-            products.setAttribute("id","products")
-            products.setAttribute("class","container-fluid")
+            products.setAttribute("id", "products")
+            products.setAttribute("class", "container-fluid")
             div.append(products)
-            document.body.append(div);
+            document.getElementById("divContainerIndex").append(div)
         }
         const idProduct = arrayProducts[i].id
         const nameProduct = arrayProducts[i].name
@@ -195,11 +218,12 @@ function printProducts(){
         const priceProduct = arrayProducts[i].price
 
         const appendProduct = document.createElement("div")
+        appendProduct.setAttribute("id", "product" + idProduct.toString())
         appendProduct.innerHTML = `<h4>${nameProduct}</h4>
                                    <p>ID: ${idProduct}</p>
                                    <p>Description: ${descProduct}</p>
                                    <p>Price: ${priceProduct}</p>
-                                   <button name='buttonCart' id='${idProduct}' class='addToCart' type='button'>Add to Cart</button>`
+                                   <button id='${idProduct}' class='addToCart' type='button'>Add to Cart</button>`
         document.getElementById("products").append(appendProduct)
     }
 }
@@ -207,23 +231,18 @@ function printProducts(){
 //Funcion que se ejecuta cuando se aprieta el boton "SHOW PRODUCTS". Muestra todos los productos del arraylist
 function showProducts() {
     if (document.getElementById("divProducts") == null) {
-       printProducts()
+        printProducts()
     }
 }
 
 //Funcion que se ejecuta cuando se aprieta el boton "HIDE PRODUCTS"
 function hideProducts() {
-    if (document.getElementById("divProducts") != null)document.getElementById("divProducts").remove()
+    if (document.getElementById("divProducts") != null) document.getElementById("divProducts").remove()
 }
 
 
-//Eventos para cada uno de los botonees (add to cart).Agrega un producto al carrito (localstorage)
-const addToCartButtons = document.getElementsByTagName("buttonCart")
 
 
 
 
 
-
-
-    

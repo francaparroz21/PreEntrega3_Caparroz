@@ -1,56 +1,61 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/styles.css">
-    <title>FcaparrozDEV | Home</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/bootstrap.css">
+  <link rel="stylesheet" href="./css/styles.css">
+  <title>FcaparrozDEV | Home</title>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="./index.html">FcaparozDev</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                  <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
-                  <a class="nav-link" href="./cart.html">Cart</a>
-                </div>
-              </div>
-            </div>
-          </nav>
-    </header>
 
-    <div class="container" id="divForm">
-      <form id="form">
-        <div class="form-group" id="divName">
-          <label>Name product</label>
-          <input type="text" class="form-control inputText" id="nameProduct" aria-describedby="emailHelp" placeholder="Enter name product. Example: 'Coca cola'">
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="./index.html">FcaparozDev</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+            <a class="nav-link" href="./cart.html">Cart</a>
+          </div>
         </div>
-        <div class="form-group">
-          <label >Product description</label>
-          <input type="text" class="form-control inputText" id="descProduct" placeholder="Enter description of the product. Example: '500ml Coca cola bottle'">
-        </div>
-        <div class="form-group" id="divPrice">
-          <label>Product price</label>
-          <input type="number" class="form-control" id="priceProduct" placeholder="Enter product price. Examples: '(10, 550, 10000, etc...)'">
-        </div>
-        <button type="submit" id = "buttonSubmit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container" id="divContainerIndex">
+    <form id="form">
+      <div class="form-group" id="divName">
+        <label>Name product</label>
+        <input type="text" class="form-control inputText" id="nameProduct" aria-describedby="emailHelp"
+          placeholder="Enter name product. Example: 'Coca cola'">
+      </div>
+      <div class="form-group">
+        <label>Product description</label>
+        <input type="text" class="form-control inputText" id="descProduct"
+          placeholder="Enter description of the product. Example: '500ml Coca cola bottle'">
+      </div>
+      <div class="form-group" id="divPrice">
+        <label>Product price</label>
+        <input type="number" class="form-control" id="priceProduct"
+          placeholder="Enter product price. Examples: '(10, 550, 10000, etc...)'">
+      </div>
+      <button type="submit" id="buttonSubmit" class="btn btn-primary">Submit</button>
+    </form>
     <div class="container buttonsProductsDiv">
       <button type="button" id="showProducts" class="btn btn-primary btn-lg buttonsProducts">Show Products</button>
       <button type="button" id="hideProducts" class="btn btn-secondary btn-lg buttonsProducts">Hide Products</button>
+    </div>
   </div>
 
-    <script src="./js/script.js"></script>
-    <script src="./js/bootstrap.js"></script>
+  <script src="./js/script.js"></script>
+  <script src="./js/bootstrap.js"></script>
 </body>
+
 </html>

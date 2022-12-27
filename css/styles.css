@@ -32,3 +32,18 @@ text-align: center;
     padding: 10px;
 }
 
+.added{
+    display: flex;
+    justify-content: end;
+    color: green;
+}
+
+.deleteButton{
+    color: white;
+    background-color: red;
+    padding: 5px;
+}
+
+.buttonsCart{
+    display: inline;
+}
